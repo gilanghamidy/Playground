@@ -1,0 +1,2 @@
+
+add_executable(CompareVersion CompareVersion.cpp CompareVersionX86.s)

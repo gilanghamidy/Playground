@@ -1,0 +1,1 @@
+add_executable(RelativeRanks RelativeRanks.c RelativeRanksX86.s)

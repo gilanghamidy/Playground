@@ -1,0 +1,1 @@
+add_executable(KSmallestFrac KSmallestFrac.c)

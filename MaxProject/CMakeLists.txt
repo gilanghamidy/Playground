@@ -1,0 +1,1 @@
+add_executable(MaxProject MaxProject.cpp)
