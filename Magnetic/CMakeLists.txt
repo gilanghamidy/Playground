@@ -1,0 +1,1 @@
+add_executable(Magnetic Magnetic.cpp)

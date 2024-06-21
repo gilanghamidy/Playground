@@ -1,0 +1,1 @@
+add_executable(Grumpy Grumpy.cpp)

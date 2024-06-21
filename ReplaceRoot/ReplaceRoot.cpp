@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdint>
 #include <numeric>
+#include <cstring>
 
 auto res = [] () {
     std::ios::sync_with_stdio(false); 
