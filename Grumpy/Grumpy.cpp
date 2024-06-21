@@ -9,6 +9,7 @@ auto res = [] () {
 } ();
 
 
+
 class Solution {
 public:
     int maxSatisfied(std::vector<int> const& customers, std::vector<int> const& grumpy, int minutes) {
@@ -16,14 +17,13 @@ public:
         int cumulativeSum = 0;
         int cumulativeGrumpy = 0;
         int countdown = 0;
-        
-        std::vector<std::pair<int, int>> consecutiveSum;
-        consecutiveSum.reserve(customers.size());
+        int sum = 0;
+        std::pair<int, int> maxElement { 0, 0 };
         
         for(int i = 0; i < customers.size(); i++)
         {
-            if(minutes == 1)
-                consecutiveSum.emplace_back(1, grumpy[i] ? customers[i] : 0);
+            if(minutes == 1 && grumpy[i])
+                maxElement = std::max(maxElement, std::pair { 1, customers[i] }, [] (auto const& a, auto const& b) { return a.second < b.second || (a.second == b.second && a.first < b.first); });
             else
             {
                 if(i >= minutes - 1)
@@ -36,7 +36,8 @@ public:
                     
                     cumulativeSum += grumpy[i] ? customers[i] : 0;
                     cumulativeGrumpy += grumpy[i];
-                    consecutiveSum.emplace_back(cumulativeGrumpy, cumulativeSum);
+                    
+                    maxElement = std::max(maxElement, std::pair { cumulativeGrumpy, cumulativeSum }, [] (auto const& a, auto const& b) { return a.second < b.second || (a.second == b.second && a.first < b.first); });
                 }
                 else
                 {
@@ -44,21 +45,13 @@ public:
                     cumulativeGrumpy += grumpy[i];
                 }
             }
-        }
-
-        int idxMaxStart = std::distance(consecutiveSum.begin(), std::ranges::max_element(consecutiveSum, [] (auto const& a, auto const& b) { return a.second < b.second || (a.second == b.second && a.first < b.first); }));
-        int idxMaxEnd = idxMaxStart + minutes;
-
-        int sum = 0;
-        for(int i = 0; i < customers.size(); i++)
-        {
-            if(!grumpy[i] || (idxMaxStart <= i && i < idxMaxEnd))
-            {
+            
+            if(!grumpy[i])
                 sum += customers[i];
-            }
+            
         }
-        
-        return sum;
+
+        return sum + maxElement.second;
     }
 };
 
